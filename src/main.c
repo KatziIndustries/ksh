@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
 
-#define MAX_ARGS 64
-#define MAX_LINE 1024
+#include "ksh.h"
+#include "parser.h"
 
 int main(void)
 {
     char line[MAX_LINE];
+    int running = 1;
 
-    while (1) {
+    while (running) {
         printf("$ ");
         fflush(stdout);
 
@@ -25,37 +24,7 @@ int main(void)
             continue;
         }
 
-        char *args[MAX_ARGS];
-        int argc = 0;
-
-        char *token = strtok(line, " \t");
-
-        while (token != NULL && argc < MAX_ARGS - 1) {
-            args[argc++] = token;
-            token = strtok(NULL, " \t");
-        }
-
-        args[argc] = NULL;
-
-        if (strcmp(args[0], "exit") == 0) {
-            break;
-        }
-
-        pid_t pid = fork();
-
-        if (pid < 0) {
-            perror("fork");
-            continue;
-        }
-
-        if (pid == 0) {
-            execvp(args[0], args);
-
-            perror(args[0]);
-            exit(EXIT_FAILURE);
-        }
-
-        waitpid(pid, NULL, 0);
+        running = parser(line);
     }
 
     return 0;
