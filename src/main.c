@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "config.h"
 #include "ksh.h"
 #include "parser.h"
 
@@ -9,6 +10,8 @@ int main(void)
 {
     char line[MAX_LINE];
     int running = 1;
+
+    loadconfig();
 
     while (running) {
         printf("$ ");

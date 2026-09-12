@@ -4,6 +4,8 @@
 #include <pwd.h>
 #include <string.h>
 
+#include "parser.h"
+
 int loadconfig(void)
 {
     struct passwd *pw = getpwuid(getuid());
@@ -16,5 +18,18 @@ int loadconfig(void)
 
     fptr = fopen(homedir, "r"); 
 
-    printf("homedir is %s",homedir);
+    if (fptr == NULL) {
+        perror("fopen");
+        return 1;
+    }
+
+    char line[1024];
+
+    while (fgets(line, sizeof(line), fptr) != NULL) {
+        line[strcspn(line, "\r\n")] = '\0';
+        parser(line);
+    }
+
+    fclose(fptr);
+    return 0;
 }

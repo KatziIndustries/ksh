@@ -6,6 +6,7 @@
 
 int exec(int argc,char *args[])
 {
+    (void)argc;
     pid_t pid = fork();
 
     if (pid < 0) {
@@ -21,4 +22,6 @@ int exec(int argc,char *args[])
     }
 
     waitpid(pid, NULL, 0);
+
+    return 0;
 }
