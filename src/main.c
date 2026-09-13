@@ -5,6 +5,7 @@
 #include "config.h"
 #include "ksh.h"
 #include "parser.h"
+#include "prompt.h"
 
 int main(void)
 {
@@ -14,7 +15,8 @@ int main(void)
     loadconfig();
 
     while (running) {
-        printf("$ ");
+        char *PS1 = getenv("PS1");
+        print_prompt(PS1);
         fflush(stdout);
 
         if (fgets(line, sizeof(line), stdin) == NULL) {
