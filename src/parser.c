@@ -11,7 +11,7 @@ int parser(char *input)
     char *args[MAX_ARGS];
     int argc = 0;
 
-    // spliting input 
+    // splitting input 
     char *token = strtok(input, " \t");
 
     while (token != NULL && argc < MAX_ARGS - 1) {
@@ -21,13 +21,13 @@ int parser(char *input)
 
     args[argc] = NULL;
 
-    //shell buildins
+    // shell builtins
     if (strcmp(args[0], "exit") == 0) {
         return 0;
     }
 
     if (strcmp(args[0], "cd") == 0) {
-        //change directory
+        // change directory
         chdir(args[1]);
         return 1;
     }
