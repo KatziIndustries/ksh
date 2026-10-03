@@ -19,7 +19,6 @@ int loadconfig(void)
     fptr = fopen(homedir, "r"); 
 
     if (fptr == NULL) {
-        perror("fopen");
         return 1;
     }
 
